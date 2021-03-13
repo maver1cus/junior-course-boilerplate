@@ -6,6 +6,7 @@
 
 .products-card__title {
   font-family: "Open Sans", sans-serif;
+  text-align: center;
   font-size: 36px;
   line-height: 48px;
   color: #323c48;
@@ -13,8 +14,12 @@
 }
 
 .products-card__list {
-  margin: 0;
-  padding: 0 0 0 30px;
+  margin: -28px -16px;
+  padding: 0;
+  max-width: 768px;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
 }
 
 .products-card__item {
@@ -22,4 +27,18 @@
   font-size: 16px;
   line-height: 32px;
   color: #323c48;
+  padding: 28px 16px;
+}
+
+.star {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("/img/ic-fill-star.svg");
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.is-filled {
+  background-image: url("/img/ic-star.svg");
 }
