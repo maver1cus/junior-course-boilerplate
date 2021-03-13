@@ -12,8 +12,8 @@ const Products = (props) => {
       <Title />
       <List>
         {
-          productsToShow.map(({ id, name }) => (
-            <li className="products-card__item" key={id}>{name}</li>
+          productsToShow.map(({ id, title }) => (
+            <li className="products-card__item" key={id}>{title}</li>
           ))
         }
       </List>
