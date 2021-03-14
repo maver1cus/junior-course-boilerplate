@@ -1,10 +1,11 @@
 import React from 'react';
 import Products from '../products/products';
 import PropTypes from 'prop-types';
+import s from './app.module.css';
 
 const App = (props) => {
   return (
-    <div className="app">
+    <div className={s.app}>
       <Products products={props.products}/>
     </div>
   );
