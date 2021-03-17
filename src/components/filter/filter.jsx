@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import InputWithCaption from '../input-with-caption/input-with-caption';
+import logRender from '../log-render/log-render';
 import s from './filter.module.css';
 
 class Filter extends Component {
@@ -13,7 +14,9 @@ class Filter extends Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault();
-    this.props.filtrationProductsInPriceRange(this.refMinPrice.current.value, this.refMaxPrice.current.value);
+    this.props.filtrationProductsInPriceRange(
+      this.refMinPrice.current.value, this.refMaxPrice.current.value
+    );
   }
 
   render() {
@@ -21,8 +24,19 @@ class Filter extends Component {
       <form onSubmit={this.handleSubmit} >
         <h2>Цена</h2>
         <div className={s.row}  >
-          <InputWithCaption id="min" value={this.props.minPrice} caption="от" type="text" reference={this.refMinPrice} />
-          <InputWithCaption id="max" value={this.props.maxPrice} caption="до" type="text" reference={this.refMaxPrice} />
+          <InputWithCaption
+            id="min"
+            value={this.props.minPrice}
+            caption="от"
+            type="text"
+            reference={this.refMinPrice}
+          />
+          <InputWithCaption
+            id="max"
+            value={this.props.maxPrice}
+            caption="до" type="text"
+            reference={this.refMaxPrice}
+          />
         </div>
         <input className={s.btn} type="submit" value="применить" />
       </form>
@@ -36,4 +50,4 @@ Filter.propsType = {
   maxPrice: PropTypes.number.isRequired
 }
 
-export default Filter;
+export default logRender(Filter);

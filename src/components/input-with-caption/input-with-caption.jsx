@@ -10,7 +10,13 @@ const InputWithCaption = (props) => {
   return (
     <>
       {label}
-      <input className={s.input} type={props.type} defaultValue={props.value} id={props.id} ref={props.reference}/>
+      <input
+        className={s.input}
+        type={props.type}
+        defaultValue={props.value}
+        id={props.id}
+        ref={props.reference}
+      />
     </>
   );
 }
@@ -19,7 +25,10 @@ InputWithCaption.propTypes = {
   id: PropTypes.string.isRequired,
   caption: PropTypes.string,
   type: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]).isRequired,
   reference: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.object })
