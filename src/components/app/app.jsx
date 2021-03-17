@@ -13,15 +13,30 @@ class App extends Component {
     this.state = {
       products: props.products,
       maxPrice: maxBy(obj => obj.price, props.products).price,
-      minPrice: minBy(obj => obj.price, props.products).price,
+      minPrice: minBy(obj => obj.price, props.products).price
     }
   }
 
+  validPrice = (price) => {
+    price = parseInt(price, 10);
+    price = Number.isInteger(price) ? price : 0;
+    return +price
+  }
+
   filtrationProductsInPriceRange = (min, max) => {
+    min = this.validPrice(+min) <= 0
+        ? this.state.minPrice
+        : min;
+    max = this.validPrice(+max) <= 0
+        ? this.state.maxPrice
+        : max;
+
     const products = this.props.products.filter(({ price }) => price >= min && price <= max)
 
     this.setState({
-      products
+      products,
+      minPrice: min,
+      maxPrice: max
     });
   }
 
@@ -32,7 +47,10 @@ class App extends Component {
       <div className={s.app}>
         <header className={s.header}><Title /></header>
         <aside className={s.column}>
-          <Filter maxPrice={maxPrice} minPrice={minPrice} filtrationProductsInPriceRange={this.filtrationProductsInPriceRange}/>
+          <Filter
+            maxPrice={maxPrice}
+            minPrice={minPrice}
+            filtrationProductsInPriceRange={this.filtrationProductsInPriceRange}/>
         </aside>
         <main>
           <Products products={products}/>
