@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Product from 'csssr-school-product-card'
-import Title from '../title/title';
 import List from '../list/list';
 import Rating from '../rating/rating';
 import s from './products.module.css';
@@ -11,7 +10,6 @@ const PATH_TO_IMAGES = '/img/';
 const Products = (props) => {
   return (
     <div className="products-card">
-      <Title />
       <List>
         {
           props.products.map(({ id, isInStock, title, img, rating, maxRating, price, subPriceContent }) => (
