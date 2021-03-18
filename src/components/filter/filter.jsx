@@ -8,16 +8,22 @@ class Filter extends Component {
   constructor(props) {
     super(props);
 
-    this.refMinPrice = React.createRef();
-    this.refMaxPrice = React.createRef();
+    this.state = {
+      minPrice: this.props.minPrice,
+      maxPrice: this.props.maxPrice
+    }
   }
 
   handleSubmit = (evt) => {
     evt.preventDefault();
     this.props.filtrationProductsInPriceRange(
-      this.refMinPrice.current.value, this.refMaxPrice.current.value
+        this.state.minPrice, this.state.maxPrice
     );
   }
+
+  changeMinPrice = (minPrice) => this.setState({minPrice});
+
+  changeMaxPrice = (maxPrice) => this.setState({maxPrice});
 
   render() {
     return (
@@ -26,19 +32,24 @@ class Filter extends Component {
         <div className={s.row}  >
           <InputWithCaption
             id="min"
-            value={this.props.minPrice}
+            value={this.state.minPrice}
             caption="от"
             type="text"
-            reference={this.refMinPrice}
+            onChange={this.changeMinPrice}
           />
           <InputWithCaption
             id="max"
-            value={this.props.maxPrice}
-            caption="до" type="text"
-            reference={this.refMaxPrice}
+            value={this.state.maxPrice}
+            caption="до"
+            type="text"
+            onChange={this.changeMaxPrice}
           />
         </div>
-        <input className={s.btn} type="submit" value="применить" />
+        <input
+          className={s.btn}
+          type="submit"
+          value="применить"
+        />
       </form>
     );
   }

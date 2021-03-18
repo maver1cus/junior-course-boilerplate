@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {toInt} from 'csssr-school-utils'
 import s from '../filter/filter.module.css';
 
 const InputWithCaption = (props) => {
@@ -7,15 +8,21 @@ const InputWithCaption = (props) => {
     ? <label className={s.label} htmlFor={props.id}>{props.caption}</label>
     : '';
 
+  const handleChange = (evt) => {
+    evt.preventDefault();
+    const price = toInt(evt.target.value);
+    props.onChange(price);
+  };
+
   return (
     <>
       {label}
       <input
         className={s.input}
         type={props.type}
-        defaultValue={props.value}
+        value={props.value}
         id={props.id}
-        ref={props.reference}
+        onChange={handleChange}
       />
     </>
   );
@@ -25,14 +32,8 @@ InputWithCaption.propTypes = {
   id: PropTypes.string.isRequired,
   caption: PropTypes.string,
   type: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired,
-  reference: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.object })
-  ])
+  value: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
 };
 
 export default InputWithCaption;
