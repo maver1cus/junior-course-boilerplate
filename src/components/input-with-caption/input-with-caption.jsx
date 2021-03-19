@@ -2,14 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import s from '../filter/filter.module.css';
 
-const InputWithCaption = (props) => {
-  const label = (props.caption)
-    ? <label className={s.label} htmlFor={props.id}>{props.caption}</label>
-    : '';
-
-  return (
+const InputWithCaption = (props) => (
     <>
-      {label}
+      <label className={s.label} htmlFor={props.id}>{props.caption}</label>
       <input
         className={s.input}
         type={props.type}
@@ -19,8 +14,7 @@ const InputWithCaption = (props) => {
         onChange={props.onChange}
       />
     </>
-  );
-}
+  )
 
 InputWithCaption.propTypes = {
   id: PropTypes.string.isRequired,
