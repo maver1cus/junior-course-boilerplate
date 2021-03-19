@@ -18,28 +18,17 @@ class App extends Component {
     }
   }
 
-  validPrice = (price) => {
-    price = parseInt(price, 10);
-    price = Number.isInteger(price) ? price : 0;
-    return +price
+  handleChangePrice = (price, nameFilter) => {
+    this.setState({ [nameFilter]: price });
   }
 
   filtrationProductsInPriceRange = (minPrice, maxPrice) => {
-    minPrice = this.validPrice(minPrice) <= 0
-        ? this.state.minPrice
-        : minPrice;
-    maxPrice = this.validPrice(maxPrice) <= 0
-        ? this.state.maxPrice
-        : maxPrice;
-
-    const products = this.props.products
-        .filter(({ price }) => price >= minPrice && price <= maxPrice)
-
-    this.setState({products, minPrice, maxPrice });
+    return this.props.products
+      .filter(({ price }) => price >= minPrice && price <= maxPrice);
   }
 
   render() {
-    const {products} = this.state;
+    const products = this.filtrationProductsInPriceRange(this.state.minPrice, this.state.maxPrice);
 
     return (
       <div className={s.app}>
@@ -48,7 +37,7 @@ class App extends Component {
           <Filter
               maxPrice={this.state.maxPrice}
               minPrice={this.state.minPrice}
-              filtrationProductsInPriceRange={this.filtrationProductsInPriceRange}
+              handleChangePrice={this.handleChangePrice}
           />
         </aside>
         <main>

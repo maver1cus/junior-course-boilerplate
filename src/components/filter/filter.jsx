@@ -5,60 +5,37 @@ import logRender from '../log-render/log-render';
 import s from './filter.module.css';
 
 class Filter extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      minPrice: this.props.minPrice,
-      maxPrice: this.props.maxPrice
-    }
-  }
-
-  handleSubmit = (evt) => {
-    evt.preventDefault();
-    this.props.filtrationProductsInPriceRange(
-        this.state.minPrice, this.state.maxPrice
-    );
-  }
-
-  changeMinPrice = (minPrice) => this.setState({minPrice});
-
-  changeMaxPrice = (maxPrice) => this.setState({maxPrice});
-
   render() {
     return (
-      <form onSubmit={this.handleSubmit} >
+      <form>
         <h2>Цена</h2>
         <div className={s.row}  >
           <InputWithCaption
             id="min"
-            value={this.state.minPrice}
+            name="minPrice"
+            value={this.props.minPrice}
             caption="от"
             type="text"
-            onChange={this.changeMinPrice}
+            onChangeInputValue={this.props.handleChangePrice}
           />
           <InputWithCaption
             id="max"
-            value={this.state.maxPrice}
+            name="maxPrice"
+            value={this.props.maxPrice}
             caption="до"
             type="text"
-            onChange={this.changeMaxPrice}
+            onChangeInputValue={this.props.handleChangePrice}
           />
         </div>
-        <input
-          className={s.btn}
-          type="submit"
-          value="применить"
-        />
       </form>
     );
   }
 }
 
 Filter.propsType = {
-  filtrationProductsInPriceRange: PropTypes.func.isRequired,
   minPrice: PropTypes.number.isRequired,
-  maxPrice: PropTypes.number.isRequired
+  maxPrice: PropTypes.number.isRequired,
+  handleChangePrice: PropTypes.func.isRequired
 }
 
 export default logRender(Filter);
