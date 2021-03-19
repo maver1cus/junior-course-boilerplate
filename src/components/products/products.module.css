@@ -4,3 +4,18 @@
   color: #323c48;
   padding: 28px 16px;
 }
+
+.price {
+  margin-right: 8px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #323c48;
+}
+
+.subPrice {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 24px;
+  color: #323c48;
+}

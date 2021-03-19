@@ -5,9 +5,9 @@
     "isInStock": true,
     "img": "product-1.png",
     "price": 3000,
-    "subPriceContent": "",
     "maxRating": 5,
-    "rating": 4.5
+    "rating": 4.5,
+    "discount": 40
   },
   {
     "id": 2,
@@ -15,7 +15,6 @@
     "isInStock": false,
     "img": "product-2.png",
     "price": 5000,
-    "subPriceContent": "",
     "maxRating": 5,
     "rating": 4.5
   },
@@ -25,9 +24,9 @@
     "isInStock": true,
     "img": "product-3.png",
     "price": 20000,
-    "subPriceContent": 23000,
     "maxRating": 5,
-    "rating": 4.5
+    "rating": 4.5,
+    "discount": 30
   },
   {
     "id": 4,
@@ -35,7 +34,6 @@
     "isInStock": true,
     "img": "product-4.png",
     "price": 15000,
-    "subPriceContent": "",
     "maxRating": 5,
     "rating": 4.5
   },
@@ -45,7 +43,6 @@
     "isInStock": true,
     "img": "product-5.png",
     "price": 11000,
-    "subPriceContent": "",
     "maxRating": 5,
     "rating": 4.5
   },
@@ -55,8 +52,8 @@
     "isInStock": false,
     "img": "product-6.png",
     "price": 21000,
-    "subPriceContent": "",
     "maxRating": 5,
-    "rating": 4.5
+    "rating": 4.5,
+    "discount": 20
   }
 ]

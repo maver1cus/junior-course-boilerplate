@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Discount from 'csssr-school-input-discount'
 import InputWithCaption from '../input-with-caption/input-with-caption';
 import logRender from '../log-render/log-render';
 import s from './filter.module.css';
@@ -16,7 +17,7 @@ class Filter extends Component {
             value={this.props.minPrice}
             caption="от"
             type="text"
-            onChangeInputValue={this.props.handleChangePrice}
+            onChange={this.props.handleChangeFilterInput}
           />
           <InputWithCaption
             id="max"
@@ -24,7 +25,15 @@ class Filter extends Component {
             value={this.props.maxPrice}
             caption="до"
             type="text"
-            onChangeInputValue={this.props.handleChangePrice}
+            onChange={this.props.handleChangeFilterInput}
+          />
+        </div>
+        <div className="s.row">
+          <Discount
+            title="Скидка"
+            name="discount"
+            value={this.props.discount}
+            onChange={this.props.handleChangeFilterInput}
           />
         </div>
       </form>
@@ -35,7 +44,8 @@ class Filter extends Component {
 Filter.propsType = {
   minPrice: PropTypes.number.isRequired,
   maxPrice: PropTypes.number.isRequired,
-  handleChangePrice: PropTypes.func.isRequired
+  discount: PropTypes.number.isRequired,
+  handleChangeFilterInput: PropTypes.func.isRequired
 }
 
 export default logRender(Filter);
