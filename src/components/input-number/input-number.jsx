@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import WithInputNumber from '../../hoc/with-input-number/with-input-number';
-import s from '../filter/filter.module.css'
+import s from './input-number.module.css'
 
 const InputNumber = (props) => (
   <>

@@ -12,7 +12,7 @@ class Filter extends Component {
   render() {
     return (
       <form>
-        <h2>Цена</h2>
+        <h3 className={s.title}>Цена</h3>
         <div className={s.row}  >
           <InputWithCaption
             id="min"

@@ -1,0 +1,20 @@
+.input {
+  width: 91px;
+  height: 30px;
+  padding: 0 16px;
+  border: 1px solid #7e8fa4;
+  font-size: 14px;
+  color: #323c48;
+}
+
+.input::placeholder {
+  color: #7e8fa4;
+}
+
+.label {
+  flex-grow: 1;
+  font-weight: 600;
+  font-size: 14px;
+  color: #323c48;
+  padding: 0 6px;
+}
