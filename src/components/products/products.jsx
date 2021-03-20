@@ -16,7 +16,7 @@ const Products = (props) => {
   }
 
   const paymentSubPrice = (price, discount) => {
-    if (!Number.isInteger(discount)) {
+    if (!Number.isInteger(discount) || discount <= 0) {
       return ''
     }
 

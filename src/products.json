@@ -16,7 +16,8 @@
     "img": "product-2.png",
     "price": 5000,
     "maxRating": 5,
-    "rating": 4.5
+    "rating": 4.5,
+    "discount": 0
   },
   {
     "id": 3,
@@ -35,7 +36,8 @@
     "img": "product-4.png",
     "price": 15000,
     "maxRating": 5,
-    "rating": 4.5
+    "rating": 4.5,
+    "discount": 0
   },
   {
     "id": 5,
@@ -44,7 +46,8 @@
     "img": "product-5.png",
     "price": 11000,
     "maxRating": 5,
-    "rating": 4.5
+    "rating": 4.5,
+    "discount": 0
   },
   {
     "id": 6,
