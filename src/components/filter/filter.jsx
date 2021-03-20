@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Discount from 'csssr-school-input-discount'
-import InputWithCaption from '../input-with-caption/input-with-caption';
+import InputWithCaption from '../input-number/input-number';
 import logRender from '../log-render/log-render';
+import WithInputNumber from '../../hoc/with-input-number/with-input-number';
 import s from './filter.module.css';
+
+const InputDiscount = WithInputNumber(Discount);
 
 class Filter extends Component {
   render() {
@@ -29,7 +32,7 @@ class Filter extends Component {
           />
         </div>
         <div className="s.row">
-          <Discount
+          <InputDiscount
             title="Скидка"
             name="discount"
             value={this.props.discount}

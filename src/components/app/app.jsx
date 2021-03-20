@@ -4,7 +4,7 @@ import Products from '../products/products';
 import Title from '../title/title';
 import Filter from '../filter/filter';
 import logRender from '../log-render/log-render';
-import { maxBy, minBy, toInt } from 'csssr-school-utils';
+import { maxBy, minBy } from 'csssr-school-utils';
 import s from './app.module.css';
 
 class App extends Component {
@@ -19,11 +19,8 @@ class App extends Component {
     }
   }
 
-  handleChangeFilterInput = (evt) => {
-    evt.preventDefault();
-    const value = toInt(evt.target.value) || 0;
-    const nameFilter = evt.target.name
-    this.setState({[nameFilter]: value})
+  handleChangeFilterInput = (name, value) => {
+    this.setState({[name]: value})
   }
 
   filterProducts = () => {
