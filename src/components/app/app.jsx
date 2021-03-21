@@ -17,22 +17,23 @@ class App extends Component {
       minPrice: minBy(obj => obj.price, props.products).price,
       discount: minBy(obj => obj.discount, props.products).discount
     }
+
+    this.handleChangeFilterInput = this.handleChangeFilterInput.bind(this);
   }
 
-  handleChangeFilterInput = (name, value) => {
+  handleChangeFilterInput(name, value) {
     this.setState({[name]: value})
   }
 
-  filterProducts = () => {
-    const {minPrice, maxPrice, discount} = this.state;
+  filterProducts = (products, minPrice, maxPrice, discount) => {
 
-    return this.props.products
+    return products
       .filter(({ price }) => price >= minPrice && price <= maxPrice)
       .filter(product => product.discount >= discount);
   }
 
   render() {
-    const products = this.filterProducts();
+    const {products, minPrice, maxPrice, discount} = this.state;
 
     return (
       <div className={s.app}>
@@ -46,7 +47,7 @@ class App extends Component {
           />
         </aside>
         <main>
-          <Products products={products}/>
+          <Products products={this.filterProducts(products, minPrice, maxPrice, discount)}/>
         </main>
       </div>
     );
@@ -61,4 +62,4 @@ App.defaultProps = {
   products: []
 };
 
-export default logRender(App).bind(App);
+export default logRender(App);
