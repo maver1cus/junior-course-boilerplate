@@ -1,53 +1,54 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import InputWithCaption from '../input-with-caption/input-with-caption';
+import Discount from 'csssr-school-input-discount'
+import InputWithCaption from '../input-number/input-number';
 import logRender from '../log-render/log-render';
+import WithInputNumber from '../../hoc/with-input-number/with-input-number';
 import s from './filter.module.css';
 
+const InputDiscount = WithInputNumber(Discount);
+
 class Filter extends Component {
-  constructor(props) {
-    super(props);
-
-    this.refMinPrice = React.createRef();
-    this.refMaxPrice = React.createRef();
-  }
-
-  handleSubmit = (evt) => {
-    evt.preventDefault();
-    this.props.filtrationProductsInPriceRange(
-      this.refMinPrice.current.value, this.refMaxPrice.current.value
-    );
-  }
-
   render() {
     return (
-      <form onSubmit={this.handleSubmit} >
-        <h2>Цена</h2>
+      <form>
+        <h3 className={s.title}>Цена</h3>
         <div className={s.row}  >
           <InputWithCaption
             id="min"
+            name="minPrice"
             value={this.props.minPrice}
             caption="от"
             type="text"
-            reference={this.refMinPrice}
+            onChange={this.props.handleChangeFilterInput}
           />
           <InputWithCaption
             id="max"
+            name="maxPrice"
             value={this.props.maxPrice}
-            caption="до" type="text"
-            reference={this.refMaxPrice}
+            caption="до"
+            type="text"
+            onChange={this.props.handleChangeFilterInput}
           />
         </div>
-        <input className={s.btn} type="submit" value="применить" />
+        <div className="s.row">
+          <InputDiscount
+            title="Скидка"
+            name="discount"
+            value={this.props.discount}
+            onChange={this.props.handleChangeFilterInput}
+          />
+        </div>
       </form>
     );
   }
 }
 
 Filter.propsType = {
-  filtrationProductsInPriceRange: PropTypes.func.isRequired,
   minPrice: PropTypes.number.isRequired,
-  maxPrice: PropTypes.number.isRequired
+  maxPrice: PropTypes.number.isRequired,
+  discount: PropTypes.number.isRequired,
+  handleChangeFilterInput: PropTypes.func.isRequired
 }
 
 export default logRender(Filter);

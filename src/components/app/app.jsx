@@ -4,7 +4,7 @@ import Products from '../products/products';
 import Title from '../title/title';
 import Filter from '../filter/filter';
 import logRender from '../log-render/log-render';
-import {maxBy, minBy} from 'csssr-school-utils'
+import { maxBy, minBy } from 'csssr-school-utils';
 import s from './app.module.css';
 
 class App extends Component {
@@ -14,32 +14,26 @@ class App extends Component {
     this.state = {
       products: props.products,
       maxPrice: maxBy(obj => obj.price, props.products).price,
-      minPrice: minBy(obj => obj.price, props.products).price
+      minPrice: minBy(obj => obj.price, props.products).price,
+      discount: minBy(obj => obj.discount, props.products).discount
     }
+
+    this.handleChangeFilterInput = this.handleChangeFilterInput.bind(this);
   }
 
-  validPrice = (price) => {
-    price = parseInt(price, 10);
-    price = Number.isInteger(price) ? price : 0;
-    return +price
+  handleChangeFilterInput(name, value) {
+    this.setState({[name]: value})
   }
 
-  filtrationProductsInPriceRange = (minPrice, maxPrice) => {
-    minPrice = this.validPrice(minPrice) <= 0
-        ? this.state.minPrice
-        : minPrice;
-    maxPrice = this.validPrice(maxPrice) <= 0
-        ? this.state.maxPrice
-        : maxPrice;
+  filterProducts = (products, minPrice, maxPrice, discount) => {
 
-    const products = this.props.products
-        .filter(({ price }) => price >= minPrice && price <= maxPrice)
-
-    this.setState({products, minPrice, maxPrice });
+    return products
+      .filter(({ price }) => price >= minPrice && price <= maxPrice)
+      .filter(product => product.discount >= discount);
   }
 
   render() {
-    const {products} = this.state;
+    const {products, minPrice, maxPrice, discount} = this.state;
 
     return (
       <div className={s.app}>
@@ -48,11 +42,12 @@ class App extends Component {
           <Filter
               maxPrice={this.state.maxPrice}
               minPrice={this.state.minPrice}
-              filtrationProductsInPriceRange={this.filtrationProductsInPriceRange}
+              discount={this.state.discount}
+              handleChangeFilterInput={this.handleChangeFilterInput}
           />
         </aside>
         <main>
-          <Products products={products}/>
+          <Products products={this.filterProducts(products, minPrice, maxPrice, discount)}/>
         </main>
       </div>
     );
@@ -67,4 +62,4 @@ App.defaultProps = {
   products: []
 };
 
-export default logRender(App).bind(App);
+export default logRender(App);
