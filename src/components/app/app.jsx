@@ -22,6 +22,7 @@ class App extends Component {
 
     this.handleChangeFilterInput = this.handleChangeFilterInput.bind(this);
     this.handleSelectedCategory = this.handleSelectedCategory.bind(this);
+    this.handleResetFilters = this.handleResetFilters.bind(this);
   }
 
   handleChangeFilterInput(name, value) {
@@ -34,6 +35,17 @@ class App extends Component {
     selectedCategories.includes(selectedCategory)
       ? this.setState({ selectedCategories: selectedCategories.filter(category => category !== selectedCategory) })
       : this.setState({ selectedCategories: [...selectedCategories, selectedCategory] })
+  }
+
+  handleResetFilters() {
+    const { products } = this.state;
+
+    this.setState({
+      maxPrice: maxBy(obj => obj.price, products).price,
+      minPrice: minBy(obj => obj.price, products).price,
+      discount: minBy(obj => obj.discount, products).discount,
+      selectedCategories: this.getAllCategories(products)
+    })
   }
 
   filterProducts = (products, minPrice, maxPrice, discount, selectedCategories) => {
@@ -68,6 +80,7 @@ class App extends Component {
               selectedCategories={this.state.selectedCategories}
               handleChangeFilterInput={this.handleChangeFilterInput}
               handleSelectedCategory={this.handleSelectedCategory}
+              handleResetFilters={this.handleResetFilters}
           />
         </aside>
         <main>
