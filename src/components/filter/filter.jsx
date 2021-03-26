@@ -4,6 +4,7 @@ import Discount from 'csssr-school-input-discount'
 import InputWithCaption from '../input-number/input-number';
 import logRender from '../log-render/log-render';
 import WithInputNumber from '../../hoc/with-input-number/with-input-number';
+import FilterCategory from '../filter-category/filter-category';
 import s from './filter.module.css';
 
 const InputDiscount = WithInputNumber(Discount);
@@ -13,7 +14,7 @@ class Filter extends Component {
     return (
       <form>
         <h3 className={s.title}>Цена</h3>
-        <div className={s.row}  >
+        <div className={s.row}>
           <InputWithCaption
             id="min"
             name="minPrice"
@@ -22,6 +23,7 @@ class Filter extends Component {
             type="text"
             onChange={this.props.handleChangeFilterInput}
           />
+
           <InputWithCaption
             id="max"
             name="maxPrice"
@@ -39,6 +41,14 @@ class Filter extends Component {
             onChange={this.props.handleChangeFilterInput}
           />
         </div>
+
+        <div className="s.row" >
+          <FilterCategory
+            selectedCategories={this.props.selectedCategories}
+            categories={this.props.categories}
+            handleSelectedCategory={this.props.handleSelectedCategory}
+          />
+        </div>
       </form>
     );
   }
@@ -48,7 +58,10 @@ Filter.propsType = {
   minPrice: PropTypes.number.isRequired,
   maxPrice: PropTypes.number.isRequired,
   discount: PropTypes.number.isRequired,
-  handleChangeFilterInput: PropTypes.func.isRequired
+  categories: PropTypes.array.isRequired,
+  selectedCategories: PropTypes.array.isRequired,
+  handleChangeFilterInput: PropTypes.func.isRequired,
+  handleSelectedCategory: PropTypes.func.isRequired
 }
 
 export default logRender(Filter);

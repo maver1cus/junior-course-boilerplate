@@ -1,0 +1,19 @@
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #7e8fa4;
+  background: #ffffff;
+  border: 1px solid #7e8fa4;
+  border-radius: 15px;
+}
+
+input:checked + .btn {
+  background-color: #323c48;
+  border-color: #323c48;
+  color: #fff;
+}
+
+.checkbox {
+  display: none;
+}

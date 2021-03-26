@@ -15,25 +15,46 @@ class App extends Component {
       products: props.products,
       maxPrice: maxBy(obj => obj.price, props.products).price,
       minPrice: minBy(obj => obj.price, props.products).price,
-      discount: minBy(obj => obj.discount, props.products).discount
+      discount: minBy(obj => obj.discount, props.products).discount,
+      selectedCategories: this.getAllCategories(props.products),
+      categories: this.getAllCategories(props.products)
     }
 
     this.handleChangeFilterInput = this.handleChangeFilterInput.bind(this);
+    this.handleSelectedCategory = this.handleSelectedCategory.bind(this);
   }
 
   handleChangeFilterInput(name, value) {
     this.setState({[name]: value})
   }
 
-  filterProducts = (products, minPrice, maxPrice, discount) => {
+  handleSelectedCategory(selectedCategory) {
+    const { selectedCategories } = this.state;
 
+    selectedCategories.includes(selectedCategory)
+      ? this.setState({ selectedCategories: selectedCategories.filter(category => category !== selectedCategory) })
+      : this.setState({ selectedCategories: [...selectedCategories, selectedCategory] })
+  }
+
+  filterProducts = (products, minPrice, maxPrice, discount, selectedCategories) => {
     return products
-      .filter(({ price }) => price >= minPrice && price <= maxPrice)
-      .filter(product => product.discount >= discount);
+      .filter((product) => {
+        return  product.price >= minPrice &&
+          product.price <= maxPrice &&
+          product.discount >= discount &&
+          selectedCategories.some(category => product.category.indexOf(category) >= 0)
+      })
+  }
+
+  getAllCategories(products) {
+    const categories = products
+      .reduce((acc, product) => acc.concat(product.category), []);
+
+    return Array.from(new Set(categories));
   }
 
   render() {
-    const {products, minPrice, maxPrice, discount} = this.state;
+    const {products, minPrice, maxPrice, discount, selectedCategories} = this.state;
 
     return (
       <div className={s.app}>
@@ -43,11 +64,14 @@ class App extends Component {
               maxPrice={this.state.maxPrice}
               minPrice={this.state.minPrice}
               discount={this.state.discount}
+              categories={this.state.categories}
+              selectedCategories={this.state.selectedCategories}
               handleChangeFilterInput={this.handleChangeFilterInput}
+              handleSelectedCategory={this.handleSelectedCategory}
           />
         </aside>
         <main>
-          <Products products={this.filterProducts(products, minPrice, maxPrice, discount)}/>
+          <Products products={this.filterProducts(products, minPrice, maxPrice, discount, selectedCategories)}/>
         </main>
       </div>
     );
