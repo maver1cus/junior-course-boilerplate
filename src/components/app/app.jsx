@@ -5,6 +5,7 @@ import Title from '../title/title';
 import Filter from '../filter/filter';
 import logRender from '../log-render/log-render';
 import { maxBy, minBy } from 'csssr-school-utils';
+import FilterContext from '../../filter-context';
 import s from './app.module.css';
 
 class App extends Component {
@@ -66,27 +67,29 @@ class App extends Component {
   }
 
   render() {
-    const {products, minPrice, maxPrice, discount, selectedCategories} = this.state;
+    const {products, minPrice, maxPrice, discount, selectedCategories, categories} = this.state;
 
     return (
-      <div className={s.app}>
-        <header className={s.header}><Title /></header>
-        <aside className={s.column}>
-          <Filter
-              maxPrice={this.state.maxPrice}
-              minPrice={this.state.minPrice}
-              discount={this.state.discount}
-              categories={this.state.categories}
-              selectedCategories={this.state.selectedCategories}
-              handleChangeFilterInput={this.handleChangeFilterInput}
-              handleSelectedCategory={this.handleSelectedCategory}
-              handleResetFilters={this.handleResetFilters}
-          />
-        </aside>
-        <main>
-          <Products products={this.filterProducts(products, minPrice, maxPrice, discount, selectedCategories)}/>
-        </main>
-      </div>
+      <FilterContext.Provider value={{
+        maxPrice,
+        minPrice,
+        discount,
+        categories,
+        selectedCategories,
+        handleChangeFilterInput: this.handleChangeFilterInput,
+        handleSelectedCategory: this.handleSelectedCategory,
+        handleResetFilters: this.handleResetFilters
+      }}>
+        <div className={s.app}>
+          <header className={s.header}><Title /></header>
+          <aside className={s.column}>
+              <Filter />
+          </aside>
+          <main>
+            <Products products={this.filterProducts(products, minPrice, maxPrice, discount, selectedCategories)}/>
+          </main>
+        </div>
+      </FilterContext.Provider>
     );
   }
 }

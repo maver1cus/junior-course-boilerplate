@@ -7,54 +7,71 @@ import WithInputNumber from '../../hoc/with-input-number/with-input-number';
 import FilterCategory from '../filter-category/filter-category';
 import Button from '../button/button';
 import s from './filter.module.css';
+import FilterContext from '../../filter-context';
 
 const InputDiscount = WithInputNumber(Discount);
 
 class Filter extends Component {
   render() {
     return (
-      <form>
-        <h3 className={s.title}>Цена</h3>
-        <div className={s.row}>
-          <InputWithCaption
-            id="min"
-            name="minPrice"
-            value={this.props.minPrice}
-            caption="от"
-            type="text"
-            onChange={this.props.handleChangeFilterInput}
-          />
+      <FilterContext.Consumer>
+        {
+          ({
+             maxPrice,
+             minPrice,
+             discount,
+             categories,
+             selectedCategories,
+             handleChangeFilterInput,
+             handleSelectedCategory,
+             handleResetFilters }) => (
+              <form>
+                <h3 className={s.title}>Цена</h3>
+                <div className={s.row}>
+                  <InputWithCaption
+                    id="min"
+                    name="minPrice"
+                    value={minPrice}
+                    caption="от"
+                    type="text"
+                    onChange={handleChangeFilterInput}
+                  />
 
-          <InputWithCaption
-            id="max"
-            name="maxPrice"
-            value={this.props.maxPrice}
-            caption="до"
-            type="text"
-            onChange={this.props.handleChangeFilterInput}
-          />
-        </div>
-        <div className="s.row">
-          <InputDiscount
-            title="Скидка"
-            name="discount"
-            value={this.props.discount}
-            onChange={this.props.handleChangeFilterInput}
-          />
-        </div>
+                  <InputWithCaption
+                    id="max"
+                    name="maxPrice"
+                    value={maxPrice}
+                    caption="до"
+                    type="text"
+                    onChange={handleChangeFilterInput}
+                  />
+                </div>
+                <div className="s.row">
+                  <InputDiscount
+                    title="Скидка"
+                    name="discount"
+                    value={discount}
+                    onChange={handleChangeFilterInput}
+                  />
+                </div>
 
-        <div className={s.row} >
-          <FilterCategory
-            selectedCategories={this.props.selectedCategories}
-            categories={this.props.categories}
-            handleSelectedCategory={this.props.handleSelectedCategory}
-          />
-        </div>
+                <div className={s.row} >
+                  <FilterCategory
+                    selectedCategories={selectedCategories}
+                    categories={categories}
+                    handleSelectedCategory={handleSelectedCategory}
+                  />
+                </div>
 
-        <div className={s.row}>
-          <Button title="Сбросить фильтры" handleResetFilters={this.props.handleResetFilters}/>
-        </div>
-      </form>
+                <div className={s.row}>
+                  <Button title="Сбросить фильтры" handleResetFilters={handleResetFilters}/>
+                </div>
+              </form>
+          )
+
+
+        }
+      </FilterContext.Consumer>
     );
   }
 }
