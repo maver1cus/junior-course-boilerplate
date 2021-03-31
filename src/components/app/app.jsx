@@ -13,11 +13,10 @@ class App extends Component {
     super(props);
 
     this.state = {
-      products: props.products,
       maxPrice: maxBy(obj => obj.price, props.products).price,
       minPrice: minBy(obj => obj.price, props.products).price,
       discount: minBy(obj => obj.discount, props.products).discount,
-      selectedCategories: this.getAllCategories(props.products),
+      selectedCategories: this.getCategoriesFromUrl(),
       categories: this.getAllCategories(props.products)
     }
 
@@ -26,16 +25,37 @@ class App extends Component {
     this.handleResetFilters = this.handleResetFilters.bind(this);
   }
 
+
+  componentDidMount() {
+    window.addEventListener('popstate', this.setCategoriesFromHistory);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.setCategoriesFromHistory);
+  }
+
+  setCategoriesFromHistory = () => {
+    this.setState({ selectedCategories: this.getCategoriesFromUrl() });
+  }
+
   handleChangeFilterInput(name, value) {
     this.setState({[name]: value})
   }
 
   handleSelectedCategory(selectedCategory) {
-    const { selectedCategories } = this.state;
+    const prevSelectedCategories = this.state.selectedCategories;
 
-    selectedCategories.includes(selectedCategory)
-      ? this.setState({ selectedCategories: selectedCategories.filter(category => category !== selectedCategory) })
-      : this.setState({ selectedCategories: [...selectedCategories, selectedCategory] })
+    const selectedCategories = prevSelectedCategories.includes(selectedCategory)
+      ? prevSelectedCategories.filter(category => category !== selectedCategory)
+      : [...prevSelectedCategories, selectedCategory]
+
+    this.setState({selectedCategories})
+
+    const query = (selectedCategories.sort().join('') === this.state.categories.sort().join(''))
+      ? '/'
+      : `?category=${selectedCategories.join(',')}`;
+
+    window.history.pushState({}, 'title', query);
   }
 
   handleResetFilters() {
@@ -49,8 +69,8 @@ class App extends Component {
     })
   }
 
-  filterProducts = (products, minPrice, maxPrice, discount, selectedCategories) => {
-    return products
+  filterProducts = (minPrice, maxPrice, discount, selectedCategories) => {
+    return this.props.products
       .filter((product) => {
         return  product.price >= minPrice &&
           product.price <= maxPrice &&
@@ -59,15 +79,23 @@ class App extends Component {
       })
   }
 
-  getAllCategories(products) {
-    const categories = products
+  getAllCategories() {
+    const categories = this.props.products
       .reduce((acc, product) => acc.concat(product.category), []);
 
     return Array.from(new Set(categories));
   }
 
+  getCategoriesFromUrl() {
+    const url = new URL(window.location.href)
+
+    return url.searchParams.get('category')
+      ? url.searchParams.get('category').split(',')
+      : this.getAllCategories(this.props.products)
+  }
+
   render() {
-    const {products, minPrice, maxPrice, discount, selectedCategories, categories} = this.state;
+    const {minPrice, maxPrice, discount, selectedCategories, categories} = this.state;
 
     return (
       <FilterContext.Provider value={{
@@ -86,7 +114,7 @@ class App extends Component {
               <Filter />
           </aside>
           <main>
-            <Products products={this.filterProducts(products, minPrice, maxPrice, discount, selectedCategories)}/>
+            <Products products={this.filterProducts(minPrice, maxPrice, discount, selectedCategories)}/>
           </main>
         </div>
       </FilterContext.Provider>
