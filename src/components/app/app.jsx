@@ -17,7 +17,7 @@ class App extends Component {
       minPrice: minBy(obj => obj.price, props.products).price,
       discount: minBy(obj => obj.discount, props.products).discount,
       selectedCategories: this.getCategoriesFromUrl(),
-      categories: this.getAllCategories(props.products)
+      categories: this.getAllCategories()
     }
 
     this.handleChangeFilterInput = this.handleChangeFilterInput.bind(this);
@@ -65,7 +65,7 @@ class App extends Component {
       maxPrice: maxBy(obj => obj.price, products).price,
       minPrice: minBy(obj => obj.price, products).price,
       discount: minBy(obj => obj.discount, products).discount,
-      selectedCategories: this.getAllCategories(products)
+      selectedCategories: this.getAllCategories()
     })
   }
 
@@ -91,7 +91,7 @@ class App extends Component {
 
     return url.searchParams.get('category')
       ? url.searchParams.get('category').split(',')
-      : this.getAllCategories(this.props.products)
+      : this.getAllCategories()
   }
 
   render() {
