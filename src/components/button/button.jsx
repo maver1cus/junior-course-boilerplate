@@ -11,6 +11,7 @@ const Button = (props) => {
     <button
       className={s.btn}
       onClick={handleClick}
+      type={props.type}
     >
       {props.title }
     </button>

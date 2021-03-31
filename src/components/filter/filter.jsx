@@ -64,7 +64,7 @@ class Filter extends Component {
                 </div>
 
                 <div className={s.row}>
-                  <Button title="Сбросить фильтры" handleResetFilters={handleResetFilters}/>
+                  <Button title="Сбросить фильтры" type="reset" handleResetFilters={handleResetFilters}/>
                 </div>
               </form>
           )

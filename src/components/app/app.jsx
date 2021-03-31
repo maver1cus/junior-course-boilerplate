@@ -59,7 +59,7 @@ class App extends Component {
   }
 
   handleResetFilters() {
-    const { products } = this.state;
+    const products = this.props.products;
 
     this.setState({
       maxPrice: maxBy(obj => obj.price, products).price,
