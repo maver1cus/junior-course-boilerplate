@@ -67,6 +67,8 @@ class App extends Component {
       discount: minBy(obj => obj.discount, products).discount,
       selectedCategories: this.getAllCategories()
     })
+
+    window.history.pushState({}, 'title', '/');
   }
 
   filterProducts = (minPrice, maxPrice, discount, selectedCategories) => {
