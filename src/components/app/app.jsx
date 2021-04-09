@@ -5,6 +5,7 @@ import Title from '../title/title';
 import Filter from '../filter/filter';
 import logRender from '../log-render/log-render';
 import { maxBy, minBy } from 'csssr-school-utils';
+import FilterContext from '../../filter-context';
 import s from './app.module.css';
 
 class App extends Component {
@@ -12,44 +13,113 @@ class App extends Component {
     super(props);
 
     this.state = {
-      products: props.products,
       maxPrice: maxBy(obj => obj.price, props.products).price,
       minPrice: minBy(obj => obj.price, props.products).price,
-      discount: minBy(obj => obj.discount, props.products).discount
+      discount: minBy(obj => obj.discount, props.products).discount,
+      selectedCategories: this.getCategoriesFromUrl(),
+      categories: this.getAllCategories()
     }
 
     this.handleChangeFilterInput = this.handleChangeFilterInput.bind(this);
+    this.handleSelectedCategory = this.handleSelectedCategory.bind(this);
+    this.handleResetFilters = this.handleResetFilters.bind(this);
+  }
+
+
+  componentDidMount() {
+    window.addEventListener('popstate', this.setCategoriesFromHistory);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.setCategoriesFromHistory);
+  }
+
+  setCategoriesFromHistory = () => {
+    this.setState({ selectedCategories: this.getCategoriesFromUrl() });
   }
 
   handleChangeFilterInput(name, value) {
     this.setState({[name]: value})
   }
 
-  filterProducts = (products, minPrice, maxPrice, discount) => {
+  handleSelectedCategory(selectedCategory) {
+    const prevSelectedCategories = this.state.selectedCategories;
 
-    return products
-      .filter(({ price }) => price >= minPrice && price <= maxPrice)
-      .filter(product => product.discount >= discount);
+    const selectedCategories = prevSelectedCategories.includes(selectedCategory)
+      ? prevSelectedCategories.filter(category => category !== selectedCategory)
+      : [...prevSelectedCategories, selectedCategory]
+
+    this.setState({selectedCategories})
+
+    const query = (selectedCategories.sort().join('') === this.state.categories.sort().join(''))
+      ? '/'
+      : `?category=${selectedCategories.join(',')}`;
+
+    window.history.pushState({}, 'title', query);
+  }
+
+  handleResetFilters() {
+    const products = this.props.products;
+
+    this.setState({
+      maxPrice: maxBy(obj => obj.price, products).price,
+      minPrice: minBy(obj => obj.price, products).price,
+      discount: minBy(obj => obj.discount, products).discount,
+      selectedCategories: this.getAllCategories()
+    })
+
+    window.history.pushState({}, 'title', '/');
+  }
+
+  filterProducts = (minPrice, maxPrice, discount, selectedCategories) => {
+    return this.props.products
+      .filter((product) => {
+        return  product.price >= minPrice &&
+          product.price <= maxPrice &&
+          product.discount >= discount &&
+          selectedCategories.some(category => product.category.indexOf(category) >= 0)
+      })
+  }
+
+  getAllCategories() {
+    const categories = this.props.products
+      .reduce((acc, product) => acc.concat(product.category), []);
+
+    return Array.from(new Set(categories));
+  }
+
+  getCategoriesFromUrl() {
+    const url = new URL(window.location.href)
+
+    return url.searchParams.get('category')
+      ? url.searchParams.get('category').split(',')
+      : this.getAllCategories()
   }
 
   render() {
-    const {products, minPrice, maxPrice, discount} = this.state;
+    const {minPrice, maxPrice, discount, selectedCategories, categories} = this.state;
 
     return (
-      <div className={s.app}>
-        <header className={s.header}><Title /></header>
-        <aside className={s.column}>
-          <Filter
-              maxPrice={this.state.maxPrice}
-              minPrice={this.state.minPrice}
-              discount={this.state.discount}
-              handleChangeFilterInput={this.handleChangeFilterInput}
-          />
-        </aside>
-        <main>
-          <Products products={this.filterProducts(products, minPrice, maxPrice, discount)}/>
-        </main>
-      </div>
+      <FilterContext.Provider value={{
+        maxPrice,
+        minPrice,
+        discount,
+        categories,
+        selectedCategories,
+        handleChangeFilterInput: this.handleChangeFilterInput,
+        handleSelectedCategory: this.handleSelectedCategory,
+        handleResetFilters: this.handleResetFilters
+      }}>
+        <div className={s.app}>
+          <header className={s.header}><Title /></header>
+          <aside className={s.column}>
+              <Filter />
+          </aside>
+          <main>
+            <Products products={this.filterProducts(minPrice, maxPrice, discount, selectedCategories)}/>
+          </main>
+        </div>
+      </FilterContext.Provider>
     );
   }
 }
