@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import WithInputNumber from '../../hoc/with-input-number/with-input-number';
+import WithInputNumber from '../../hocs/with-input-number/with-input-number';
 import s from './input-number.module.css'
 
 const InputNumber = (props) => (

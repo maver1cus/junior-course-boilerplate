@@ -1,30 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Products from '../products/products';
+import ListContainer from '../../containers/list-container';
+import FilterContainer from '../../containers/filters-container';
 import Title from '../title/title';
-import Filter from '../filter/filter';
 import logRender from '../log-render/log-render';
-import { maxBy, minBy } from 'csssr-school-utils';
-import FilterContext from '../../filter-context';
+import AppContext from '../../app-context';
+import reducer from '../../store/reducer';
+import {changeCategory } from '../../store/actions';
+import {getCategoriesFromUrl} from '../../utils';
 import s from './app.module.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      maxPrice: maxBy(obj => obj.price, props.products).price,
-      minPrice: minBy(obj => obj.price, props.products).price,
-      discount: minBy(obj => obj.discount, props.products).discount,
-      selectedCategories: this.getCategoriesFromUrl(),
-      categories: this.getAllCategories()
-    }
+    this.state = reducer.getState();
 
-    this.handleChangeFilterInput = this.handleChangeFilterInput.bind(this);
-    this.handleSelectedCategory = this.handleSelectedCategory.bind(this);
-    this.handleResetFilters = this.handleResetFilters.bind(this);
+    reducer.subscribe(() => {
+      this.setState(reducer.getState());
+    })
   }
-
 
   componentDidMount() {
     window.addEventListener('popstate', this.setCategoriesFromHistory);
@@ -35,91 +30,27 @@ class App extends Component {
   }
 
   setCategoriesFromHistory = () => {
-    this.setState({ selectedCategories: this.getCategoriesFromUrl() });
-  }
+    const categories = getCategoriesFromUrl() || this.state.categories
 
-  handleChangeFilterInput(name, value) {
-    this.setState({[name]: value})
-  }
-
-  handleSelectedCategory(selectedCategory) {
-    const prevSelectedCategories = this.state.selectedCategories;
-
-    const selectedCategories = prevSelectedCategories.includes(selectedCategory)
-      ? prevSelectedCategories.filter(category => category !== selectedCategory)
-      : [...prevSelectedCategories, selectedCategory]
-
-    this.setState({selectedCategories})
-
-    const query = (selectedCategories.sort().join('') === this.state.categories.sort().join(''))
-      ? '/'
-      : `?category=${selectedCategories.join(',')}`;
-
-    window.history.pushState({}, 'title', query);
-  }
-
-  handleResetFilters() {
-    const products = this.props.products;
-
-    this.setState({
-      maxPrice: maxBy(obj => obj.price, products).price,
-      minPrice: minBy(obj => obj.price, products).price,
-      discount: minBy(obj => obj.discount, products).discount,
-      selectedCategories: this.getAllCategories()
-    })
-
-    window.history.pushState({}, 'title', '/');
-  }
-
-  filterProducts = (minPrice, maxPrice, discount, selectedCategories) => {
-    return this.props.products
-      .filter((product) => {
-        return  product.price >= minPrice &&
-          product.price <= maxPrice &&
-          product.discount >= discount &&
-          selectedCategories.some(category => product.category.indexOf(category) >= 0)
-      })
-  }
-
-  getAllCategories() {
-    const categories = this.props.products
-      .reduce((acc, product) => acc.concat(product.category), []);
-
-    return Array.from(new Set(categories));
-  }
-
-  getCategoriesFromUrl() {
-    const url = new URL(window.location.href)
-
-    return url.searchParams.get('category')
-      ? url.searchParams.get('category').split(',')
-      : this.getAllCategories()
+    reducer.dispatch(changeCategory(categories))
   }
 
   render() {
-    const {minPrice, maxPrice, discount, selectedCategories, categories} = this.state;
-
     return (
-      <FilterContext.Provider value={{
-        maxPrice,
-        minPrice,
-        discount,
-        categories,
-        selectedCategories,
-        handleChangeFilterInput: this.handleChangeFilterInput,
-        handleSelectedCategory: this.handleSelectedCategory,
-        handleResetFilters: this.handleResetFilters
+      <AppContext.Provider value={{
+        state: this.state,
+        dispatch: reducer.dispatch
       }}>
         <div className={s.app}>
           <header className={s.header}><Title /></header>
           <aside className={s.column}>
-              <Filter />
+              <FilterContainer />
           </aside>
           <main>
-            <Products products={this.filterProducts(minPrice, maxPrice, discount, selectedCategories)}/>
+            <ListContainer />
           </main>
         </div>
-      </FilterContext.Provider>
+      </AppContext.Provider>
     );
   }
 }

@@ -17,7 +17,7 @@ const FilterCategory = (props) => {
               <InputCheckbox
                 title={category}
                 isCheck={isSelectedCategory(category)}
-                handleSelectedCategory={props.handleSelectedCategory}
+                handleChangeCategories={props.handleChangeCategories}
               />
             </li>
           ))

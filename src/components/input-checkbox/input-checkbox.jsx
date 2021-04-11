@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import s from './input-checkbox.module.css';
 
 const InputCheckbox = (props) => {
-
   const handleChange = (evt) => {
     const category = evt.target.value;
-    props.handleSelectedCategory(category);
+    props.handleChangeCategories(category);
   }
 
   return (
