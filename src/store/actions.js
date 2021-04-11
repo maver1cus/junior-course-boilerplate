@@ -25,7 +25,6 @@ export const changeMaxPrice = (value) => {
   }
 };
 
-
 export const changeDiscount = (value) => {
   return {
     type: ActionType.CHANGE_DISCOUNT,

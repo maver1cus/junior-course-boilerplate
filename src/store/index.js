@@ -31,13 +31,7 @@ const reducer = (state, action) => {
     case ActionType.CHANGE_CATEGORY:
       return { ...state, selectedCategories: action.payload };
     case ActionType.RESET_FILTER:
-      return {
-        ...state,
-        maxPrice: maxBy(obj => obj.price, products).price,
-        minPrice: minBy(obj => obj.price, products).price,
-        discount: minBy(obj => obj.discount, products).discount,
-        selectedCategories: getAllCategories()
-      }
+      return {...initialState}
     default:
       return state;
   }

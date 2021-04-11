@@ -4,8 +4,7 @@ import ListContainer from '../../containers/list-container';
 import FilterContainer from '../../containers/filters-container';
 import Title from '../title/title';
 import logRender from '../log-render/log-render';
-import AppContext from '../../app-context';
-import reducer from '../../store/reducer';
+import reducer from '../../store';
 import {changeCategory } from '../../store/actions';
 import {getCategoriesFromUrl} from '../../utils';
 import s from './app.module.css';
@@ -37,20 +36,17 @@ class App extends Component {
 
   render() {
     return (
-      <AppContext.Provider value={{
-        state: this.state,
-        dispatch: reducer.dispatch
-      }}>
-        <div className={s.app}>
-          <header className={s.header}><Title /></header>
-          <aside className={s.column}>
-              <FilterContainer />
-          </aside>
-          <main>
-            <ListContainer />
-          </main>
-        </div>
-      </AppContext.Provider>
+      <div className={s.app}>
+        <header className={s.header}>
+          <Title />
+        </header>
+        <aside className={s.column}>
+            <FilterContainer />
+        </aside>
+        <main>
+          <ListContainer />
+        </main>
+      </div>
     );
   }
 }

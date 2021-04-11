@@ -3,11 +3,6 @@ import PropTypes from 'prop-types';
 import s from './input-checkbox.module.css';
 
 const InputCheckbox = (props) => {
-  const handleChange = (evt) => {
-    const category = evt.target.value;
-    props.handleChangeCategories(category);
-  }
-
   return (
     <label>
       <input
@@ -15,7 +10,7 @@ const InputCheckbox = (props) => {
         checked={props.isCheck}
         className={s.checkbox}
         value={props.title}
-        onChange={handleChange}
+        onChange={props.handleChangeCategories}
       />
 
       <span className={s.btn}>

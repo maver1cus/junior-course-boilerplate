@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Discount from 'csssr-school-input-discount';
-import InputWithCaption from '../input-number/input-number';
 import logRender from '../log-render/log-render';
 import WithInputNumber from '../../hocs/with-input-number/with-input-number';
-import FilterCategory from '../filter-category/filter-category';
+import CategoriesContainer from '../../containers/categories-container';
 import Button from '../button/button';
+import Discount from 'csssr-school-input-discount';
+import InputWithCaption from '../input-number/input-number';
 import s from './filter.module.css';
 
 const InputDiscount = WithInputNumber(Discount);
@@ -16,13 +16,16 @@ class Filter extends Component {
       maxPrice,
       minPrice,
       discount,
-      categories,
-      selectedCategories,
       handleChangeMinPrice,
       handleChangeMaxPrice,
-      handleChangeDiscount,
-      handleChangeCategories,
-      handleResetFilter} = this.props;
+      handleChangeDiscount
+    } = this.props;
+
+    const handleResetFilter = (evt) => {
+      evt.preventDefault();
+      window.history.pushState({}, 'category', '/');
+      this.props.handleResetFilter();
+    }
 
     return (
         <form>
@@ -58,21 +61,16 @@ class Filter extends Component {
           </div>
 
           <div className={s.row} >
-            <FilterCategory
-              selectedCategories={selectedCategories}
-              categories={categories}
-              handleChangeCategories={handleChangeCategories}
-            />
+            <CategoriesContainer />
           </div>
 
           <div className={s.row}>
-            <Button title="Сбросить фильтры" type="reset" handleResetFilters={handleResetFilter}/>
+            <Button title="Сбросить фильтры" type="reset" handleResetFilter={handleResetFilter}/>
           </div>
         </form>
     );
   }
 }
-
 
 Filter.propsType = {
   minPrice: PropTypes.number.isRequired,
