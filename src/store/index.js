@@ -33,7 +33,7 @@ const reducer = (state, action) => {
     case ActionType.RESET_FILTER:
       return {...initialState}
     default:
-      return state;
+      return initialState;
   }
 }
 

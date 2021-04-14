@@ -4,34 +4,14 @@ import ListContainer from '../../containers/list-container';
 import FilterContainer from '../../containers/filters-container';
 import Title from '../title/title';
 import logRender from '../log-render/log-render';
-import reducer from '../../store';
-import {changeCategory } from '../../store/actions';
-import {getCategoriesFromUrl} from '../../utils';
+import store from '../../store';
 import s from './app.module.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = reducer.getState();
-
-    reducer.subscribe(() => {
-      this.setState(reducer.getState());
-    })
-  }
-
-  componentDidMount() {
-    window.addEventListener('popstate', this.setCategoriesFromHistory);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('popstate', this.setCategoriesFromHistory);
-  }
-
-  setCategoriesFromHistory = () => {
-    const categories = getCategoriesFromUrl() || this.state.categories
-
-    reducer.dispatch(changeCategory(categories))
+    this.state = store.getState();
   }
 
   render() {
