@@ -6,6 +6,23 @@ import s from './filter-category.module.css';
 const FilterCategory = (props) => {
   const isSelectedCategory = (category) => props.selectedCategories.includes(category);
 
+  const handleChangeCategories = (evt) => {
+    const {selectedCategories} = props;
+    const category = evt.target.value;
+
+    const currentSelectedCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter(item => item !== category)
+      : [...selectedCategories, category]
+
+    const query = (currentSelectedCategories.sort().join('') === selectedCategories.sort().join(''))
+      ? '/'
+      : `?category=${currentSelectedCategories.join(',')}`;
+
+    window.history.pushState({}, 'title', query);
+
+    props.handleChangeCategories(currentSelectedCategories);
+  }
+
   return (
     <div>
       <h3 className={s.title}>Цена</h3>
@@ -17,7 +34,7 @@ const FilterCategory = (props) => {
               <InputCheckbox
                 title={category}
                 isCheck={isSelectedCategory(category)}
-                handleSelectedCategory={props.handleSelectedCategory}
+                handleChangeCategories={handleChangeCategories}
               />
             </li>
           ))

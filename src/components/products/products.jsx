@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Product from 'csssr-school-product-card'
-import List from '../list/list';
-import Rating from '../rating/rating';
 import {formatMoney} from 'csssr-school-utils'
 import logRender from '../log-render/log-render';
+import List from '../list/list';
+import Rating from '../rating/rating';
 import s from './products.module.css';
 
 const PATH_TO_IMAGES = '/img/';
@@ -22,11 +22,8 @@ class Products extends Component {
     }
 
     const subPrice = (price * 100) / (100 / discount);
-
     return <span className={s.subPrice}>{formatMoney(subPrice, 0, '.', ' ')} ₽</span>
   }
-
-
 
   render() {
     return (

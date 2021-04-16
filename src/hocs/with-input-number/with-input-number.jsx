@@ -12,8 +12,7 @@ function WithInputNumber(WrappedComponent) {
     handleChange(evt) {
       evt.preventDefault();
       const value = toInt(evt.target.value) || 0;
-      const nameFilter = evt.target.name;
-      this.props.onChange(nameFilter, value);
+      this.props.onChange(value);
       evt.target.focus();
     }
 
