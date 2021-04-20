@@ -16,3 +16,7 @@
   width: 256px;
   margin-right: 48px;
 }
+
+.content {
+  flex: 1;
+}

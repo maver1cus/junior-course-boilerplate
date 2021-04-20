@@ -27,7 +27,7 @@ class Products extends Component {
 
   render() {
     return (
-      <div className="products-card">
+      <div className={s['products-card']}>
         <List>
           {
             this.props.products.map(({ id, title, isInStock, img, rating, maxRating, price, discount }) => (

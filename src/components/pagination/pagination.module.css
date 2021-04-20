@@ -1,0 +1,30 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #c5cfde;
+  font-size: 14px;
+  width: 34px;
+  height: 32px;
+  margin: 0 1px;
+}
+
+.btn__prev,
+.btn__next {
+  width: 88px;
+  margin: 0 16px;
+}
+
+.active {
+  background-color: #5695ed;
+  color: #fff;
+}

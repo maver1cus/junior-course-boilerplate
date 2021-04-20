@@ -14,11 +14,17 @@ const FilterCategory = (props) => {
       ? selectedCategories.filter(item => item !== category)
       : [...selectedCategories, category]
 
-    const query = (currentSelectedCategories.sort().join('') === selectedCategories.sort().join(''))
-      ? '/'
-      : `?category=${currentSelectedCategories.join(',')}`;
+    const categoryString = (currentSelectedCategories.sort().join('') === selectedCategories.sort().join(''))
+      ? ''
+      : currentSelectedCategories.join(',');
 
-    window.history.pushState({}, 'title', query);
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('category', categoryString);
+
+    window.history.pushState(
+      {...window.history.state, category: categoryString},
+      'category',
+      '?' + searchParams.toString());
 
     props.handleChangeCategories(currentSelectedCategories);
   }

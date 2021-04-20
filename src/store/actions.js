@@ -3,7 +3,8 @@ export const ActionType = {
   CHANGE_MIN_PRICE: 'CHANGE_MIN_PRICE',
   CHANGE_MAX_PRICE: 'CHANGE_MAX_PRICE',
   CHANGE_DISCOUNT: 'CHANGE_DISCOUNT',
-  CHANGE_CATEGORY: 'SELECT_CATEGORY'
+  CHANGE_CATEGORY: 'SELECT_CATEGORY',
+  CHANGE_PAGINATION_PAGE: 'CHANGE_PAGINATION_PAGE'
 }
 export const resetFilter = () => {
   return {
@@ -35,6 +36,13 @@ export const changeDiscount = (value) => {
 export const changeCategory = (value) => {
   return {
     type: ActionType.CHANGE_CATEGORY,
+    payload: value
+  }
+};
+
+export const changePaginationPage = (value) => {
+  return {
+    type: ActionType.CHANGE_PAGINATION_PAGE,
     payload: value
   }
 };

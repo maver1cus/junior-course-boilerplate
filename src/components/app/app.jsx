@@ -6,6 +6,7 @@ import Title from '../title/title';
 import logRender from '../log-render/log-render';
 import store from '../../store';
 import s from './app.module.css';
+import PaginationContainer from '../../containers/pagination-container';
 
 class App extends Component {
   constructor(props) {
@@ -23,8 +24,9 @@ class App extends Component {
         <aside className={s.column}>
             <FilterContainer />
         </aside>
-        <main>
+        <main className={s.content}>
           <ListContainer />
+          <PaginationContainer />
         </main>
       </div>
     );
