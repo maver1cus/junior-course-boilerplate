@@ -1,13 +1,14 @@
 import {connect} from 'react-redux';
 import FilterCategory from '../components/filter-category/filter-category';
-import {changeCategory} from '../store/actions';
+import {filterActions} from '../store/filter';
 
-const mapStateToProps = ({categories, selectedCategories}) => ({
-  selectedCategories, categories
+const mapStateToProps = ({filter}) => ({
+  selectedCategories: filter.selectedCategories,
+  categories: filter.categories
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  handleChangeCategories: (value) => dispatch(changeCategory(value)),
+  handleChangeCategories: (value) => dispatch(filterActions.changeCategory(value)),
 })
 
 const CategoriesContainer = connect(mapStateToProps, mapDispatchToProps)(FilterCategory);

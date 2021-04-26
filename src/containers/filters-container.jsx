@@ -1,16 +1,20 @@
 import {connect} from 'react-redux';
-import {changeDiscount, changeMaxPrice, changeMinPrice, resetFilter} from '../store/actions';
+import {filterActions} from '../store/filter';
 import Filter from '../components/filter/filter';
 
-const mapStateToProps = ({minPrice, maxPrice, discount, selectedCategories, categories}) => ({
-  minPrice, maxPrice, discount, selectedCategories, categories
+const mapStateToProps = ({filter}) => ({
+  minPrice: filter.minPrice,
+  maxPrice: filter.maxPrice,
+  discount: filter.discount,
+  selectedCategories: filter.selectedCategories,
+  categories: filter.categories
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleChangeMinPrice: (value) => dispatch(changeMinPrice(value)),
-  handleChangeMaxPrice: (value) => dispatch(changeMaxPrice(value)),
-  handleChangeDiscount: (value) => dispatch(changeDiscount(value)),
-  handleResetFilter: () => dispatch(resetFilter())
+  handleChangeMinPrice: (value) => dispatch(filterActions.changeMinPrice(value)),
+  handleChangeMaxPrice: (value) => dispatch(filterActions.changeMaxPrice(value)),
+  handleChangeDiscount: (value) => dispatch(filterActions.changeDiscount(value)),
+  handleResetFilter: () => dispatch(filterActions.resetFilter())
 })
 
 const FilterContainer = connect(mapStateToProps, mapDispatchToProps)(Filter);
