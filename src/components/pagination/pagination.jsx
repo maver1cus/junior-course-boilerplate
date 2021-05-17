@@ -2,25 +2,21 @@ import React from 'react';
 import s from './pagination.module.css'
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import {get} from '../../utils';
 
 const Pagination = (props) => {
   const {countPages, currentPage, changePaginationActive} = props;
 
-  const handleClick = (value) => {
+  const handleClick = function(value) {
     if (value < 1 || value > countPages) {
       return false;
     }
 
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('page', value);
-
-    window.history.pushState(
-      {...window.history.state, paginationActive: value},
-      'page',
-      '?' + searchParams.toString());
+    get('page', value)
 
     changePaginationActive(value);
   }
+  const listNumberPages = [...Array(countPages).keys()].map(item => item + 1);
 
   return (
     <ul className={s.pagination}>
@@ -35,16 +31,16 @@ const Pagination = (props) => {
         </button>
       </li>
       {
-        [...Array(countPages).keys()].map((item) => {
-          const active = item + 1 === currentPage ? 'active' : '';
+        listNumberPages.map((numberPage) => {
+          const active = numberPage === currentPage ? 'active' : '';
           return (
-            <li key={item + 1}>
+            <li key={numberPage}>
               <button
                 type="button"
                 className={classnames(s.btn, s[active])}
-                onClick={() => handleClick(item + 1)}
+                onClick={() => handleClick(numberPage)}
               >
-                {item + 1}
+                {numberPage}
               </button>
             </li>
           )

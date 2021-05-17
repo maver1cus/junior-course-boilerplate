@@ -2,6 +2,7 @@ import React from 'react';
 import InputCheckbox from '../input-checkbox/input-checkbox';
 import PropTypes from 'prop-types';
 import s from './filter-category.module.css';
+import {get} from '../../utils';
 
 const FilterCategory = (props) => {
   const isSelectedCategory = (category) => props.selectedCategories.includes(category);
@@ -18,13 +19,9 @@ const FilterCategory = (props) => {
       ? ''
       : currentSelectedCategories.join(',');
 
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('category', categoryString);
 
-    window.history.pushState(
-      {...window.history.state, category: categoryString},
-      'category',
-      '?' + searchParams.toString());
+
+    get('category', categoryString);
 
     props.handleChangeCategories(currentSelectedCategories);
   }

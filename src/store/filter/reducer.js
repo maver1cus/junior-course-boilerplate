@@ -1,13 +1,13 @@
 import * as types from './types';
 import {maxBy, minBy} from 'csssr-school-utils';
 import products from '../../products.json';
-import {getCategoriesFromUrl} from '../../utils';
+import {getCategoriesFromUrl, getUniqueArray} from '../../utils';
 
 const getAllCategories = () => {
   const categories = products
     .reduce((acc, product) => acc.concat(product.category), []);
 
-  return Array.from(new Set(categories));
+  return getUniqueArray(categories);
 }
 
 const initialState = {

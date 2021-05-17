@@ -36,3 +36,25 @@ export const getPaginationProducts = (minPrice, maxPrice, discount, selectedCate
     currentPage
   }
 }
+
+export const get = (param, value) => {
+  const searchParams = new URLSearchParams(window.location.search);
+  searchParams.set(param, value);
+
+  window.history.pushState(
+    {...window.history.state, category: value},
+    param,
+    '?' + searchParams.toString());
+}
+
+export const getUniqueArray = (array) => {
+  const result = [];
+
+  for (var i = 0; i < array.length; i++) {
+    if (result.indexOf(array[i]) === -1) {
+      result.push(array[i]);
+    }
+  }
+
+  return result;
+}
