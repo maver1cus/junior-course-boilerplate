@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ListContainer from '../../containers/list-container';
 import FilterContainer from '../../containers/filters-container';
+import PaginationContainer from '../../containers/pagination-container';
 import Title from '../title/title';
 import logRender from '../log-render/log-render';
-import store from '../../store';
+import {store} from '../../store/';
 import s from './app.module.css';
 
 class App extends Component {
@@ -23,8 +24,9 @@ class App extends Component {
         <aside className={s.column}>
             <FilterContainer />
         </aside>
-        <main>
+        <main className={s.content}>
           <ListContainer />
+          <PaginationContainer />
         </main>
       </div>
     );

@@ -2,6 +2,7 @@ import React from 'react';
 import InputCheckbox from '../input-checkbox/input-checkbox';
 import PropTypes from 'prop-types';
 import s from './filter-category.module.css';
+import {get} from '../../utils';
 
 const FilterCategory = (props) => {
   const isSelectedCategory = (category) => props.selectedCategories.includes(category);
@@ -14,11 +15,13 @@ const FilterCategory = (props) => {
       ? selectedCategories.filter(item => item !== category)
       : [...selectedCategories, category]
 
-    const query = (currentSelectedCategories.sort().join('') === selectedCategories.sort().join(''))
-      ? '/'
-      : `?category=${currentSelectedCategories.join(',')}`;
+    const categoryString = (currentSelectedCategories.sort().join('') === selectedCategories.sort().join(''))
+      ? ''
+      : currentSelectedCategories.join(',');
 
-    window.history.pushState({}, 'title', query);
+
+
+    get('category', categoryString);
 
     props.handleChangeCategories(currentSelectedCategories);
   }
