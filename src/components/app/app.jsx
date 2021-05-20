@@ -6,7 +6,8 @@ import PaginationContainer from '../../containers/pagination-container';
 import Title from '../title/title';
 import logRender from '../log-render/log-render';
 import {store} from '../../store/';
-import s from './app.module.css';
+import {BrowserRouter, Route} from 'react-router-dom';
+import ProductContainer from '../../containers/product-container';
 
 class App extends Component {
   constructor(props) {
@@ -17,17 +18,24 @@ class App extends Component {
 
   render() {
     return (
-      <div className={s.app}>
-        <header className={s.header}>
-          <Title />
-        </header>
-        <aside className={s.column}>
-            <FilterContainer />
-        </aside>
-        <main className={s.content}>
-          <ListContainer />
-          <PaginationContainer />
-        </main>
+      <div className="app">
+        <BrowserRouter>
+          <Route path="/product/:id">
+            <ProductContainer />
+          </Route>
+          <Route exact path="/">
+              <header className="header">
+                <Title>Список товаров</Title>
+              </header>
+              <aside className="column">
+                <FilterContainer />
+              </aside>
+              <main className="content">
+                <ListContainer />
+                <PaginationContainer />
+              </main>
+          </Route>
+        </BrowserRouter>
       </div>
     );
   }

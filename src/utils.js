@@ -1,4 +1,7 @@
 import { splitEvery } from 'csssr-school-utils/src';
+import s from './pages/product/product.module.css';
+import { formatMoney } from 'csssr-school-utils';
+import React from 'react';
 
 export const getCategoriesFromUrl = () => {
   const categories = getParamFromUrl('category');
@@ -57,4 +60,19 @@ export const getUniqueArray = (array) => {
   }
 
   return result;
+}
+
+export const getFormatPrice = (price) => {
+  return price
+    ? <span className={s.price}>{formatMoney(price, 0, '.', ' ')} ₽</span>
+    : ''
+}
+
+export const getPaymentSubPrice = (price, discount) => {
+  if (!Number.isInteger(discount) || discount <= 0) {
+    return ''
+  }
+
+  const subPrice = (price * 100) / (100 / discount);
+  return <span className={s.subPrice}>{formatMoney(subPrice, 0, '.', ' ')} ₽</span>
 }

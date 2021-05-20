@@ -1,30 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Product from 'csssr-school-product-card'
-import {formatMoney} from 'csssr-school-utils'
+import ProductCard from 'csssr-school-product-card'
 import logRender from '../log-render/log-render';
 import List from '../list/list';
 import Rating from '../rating/rating';
 import s from './products.module.css';
+import { getFormatPrice, getPaymentSubPrice } from '../../utils';
 
 const PATH_TO_IMAGES = '/img/';
 
 class Products extends Component {
-  formatPrice = (price) => {
-    return price
-      ? <span className={s.price}>{formatMoney(price, 0, '.', ' ')} ₽</span>
-      : ''
-  }
-
-  paymentSubPrice = (price, discount) => {
-    if (!Number.isInteger(discount) || discount <= 0) {
-      return ''
-    }
-
-    const subPrice = (price * 100) / (100 / discount);
-    return <span className={s.subPrice}>{formatMoney(subPrice, 0, '.', ' ')} ₽</span>
-  }
-
   render() {
     return (
       <div className={s['products-card']}>
@@ -32,12 +17,12 @@ class Products extends Component {
           {
             this.props.products.map(({ id, title, isInStock, img, rating, maxRating, price, discount }) => (
                 <li className={s.item} key={id}>
-                  <Product
+                  <ProductCard
                     isInStock={isInStock}
                     img={PATH_TO_IMAGES + img}
                     title={title}
-                    price={this.formatPrice(price)}
-                    subPriceContent={this.paymentSubPrice(price, discount)}
+                    price={getFormatPrice(price)}
+                    subPriceContent={getPaymentSubPrice(price, discount)}
                     maxRating={maxRating}
                     rating={rating}
                     ratingComponent={Rating}
